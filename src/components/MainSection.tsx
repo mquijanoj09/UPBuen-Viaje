@@ -17,22 +17,22 @@ export default function MainSection() {
       <h1 className="text-white text-4xl font-semibold text-center absolute z-10 w-full mt-5">
         Viaja de manera segura a la U!
       </h1>
-      <Image src={img3} alt="Logo UPBuenViaje" className="relative"></Image>
+      <Image src={img3} alt="Logo UPBuenViaje" className="relative" />
       <div className="rounded-full bg-red-100 gap-10 flex items-center absolute left-1/2 -translate-x-1/2 -translate-y-1/2">
         <div className="w-48 flex gap-2 items-center pl-5">
-          <From></From>
+          <From />
           <p>Desde: Estadio</p>
         </div>
         <div className="w-48 flex gap-2 items-center pl-5 border-l border-gray-300">
-          <Destination></Destination>
+          <Destination />
           <p>Hasta: UPB</p>
         </div>
         <div className="w-48 flex gap-2 items-center pl-5 border-l border-gray-300">
-          <Calendar></Calendar>
+          <Calendar />
           <p>Hoy</p>
         </div>
         <div className="w-48 flex gap-2 items-center pl-5 border-l border-gray-300">
-          <People></People>
+          <People />
           <p>1 pasajero</p>
         </div>
         <Button className="bg-red-500 text-white rounded-l-none w-32 hover:bg-red-400">
@@ -41,7 +41,7 @@ export default function MainSection() {
       </div>
       <div className="flex gap-10 justify-center my-20">
         <div className="flex flex-col gap-3 max-w-72">
-          <Coins></Coins>
+          <Coins />
           <div>
             <h3 className="text-red-500">
               Facilita el transporte entre estudiantes
@@ -53,7 +53,7 @@ export default function MainSection() {
           </div>
         </div>
         <div className="flex flex-col gap-3 max-w-72">
-          <Check></Check>
+          <Check />
           <div>
             <h3 className="text-red-500">Desliza, haz clic, toca y ¡listo!</h3>
             <p className="text-black">
@@ -64,7 +64,7 @@ export default function MainSection() {
           </div>
         </div>
         <div className="flex flex-col gap-3  max-w-72">
-          <Emoji></Emoji>
+          <Emoji />
           <div>
             <h3 className="text-red-500">Confía con quién viajas.</h3>
             <p className="text-black">

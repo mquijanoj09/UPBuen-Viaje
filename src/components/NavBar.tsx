@@ -12,8 +12,8 @@ export default function NavBar() {
   }
 
   return (
-    <div className="relative">
-      <nav className="flex items-center justify-between gap-10 py-5 px-40 z-50 bg-red-100 w-full fixed top-0">
+    <nav className="fixed top-0 py-5 px-40 z-20 bg-red-100 w-full">
+      <div className="relative flex items-center justify-between gap-10">
         <h1 className="text-4xl font-bold">
           <Link href={"/"} className="flex">
             <p className="text-[#F10B60]">U</p>
@@ -27,25 +27,23 @@ export default function NavBar() {
             <h3 className="hover:text-red-400">Carpool</h3>
           </Link>
           <div className="flex gap-2 items-center">
-            <Search></Search>
+            <Search />
             <h3 className="hover:text-red-400">Buscar</h3>
           </div>
           <div className="flex gap-2 items-center">
-            <Plus></Plus>
+            <Plus />
             <h3 className="hover:text-red-400">Publicar un viaje</h3>
           </div>
-          <div
+          <button
             onClick={handleSetIsLoginOpen}
-            className="flex gap-2 items-center"
+            className="flex gap-2 items-center z-50"
           >
-            <Profile></Profile>
-            <Down></Down>
-          </div>
+            <Profile />
+            <Down />
+          </button>
         </ul>
-      </nav>
-      {isLoginOpen && (
-        <Login handleSetIsLoginOpen={handleSetIsLoginOpen}></Login>
-      )}
-    </div>
+        {isLoginOpen && <Login handleSetIsLoginOpen={handleSetIsLoginOpen} />}
+      </div>
+    </nav>
   );
 }

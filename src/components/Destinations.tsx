@@ -15,10 +15,10 @@ export default function Destinations() {
         >
           <div className="flex gap-4">
             <p>Estadio</p>
-            <ArrowRight></ArrowRight>
+            <ArrowRight />
             <p>UPB</p>
           </div>
-          <Next></Next>
+          <Next />
         </Link>
         <Link
           href={"/carpool"}
@@ -26,10 +26,10 @@ export default function Destinations() {
         >
           <div className="flex gap-4">
             <p>UPB</p>
-            <ArrowRight></ArrowRight>
+            <ArrowRight />
             <p>UdeA</p>
           </div>
-          <Next></Next>
+          <Next />
         </Link>
         <Link
           href={"/carpool"}
@@ -37,10 +37,10 @@ export default function Destinations() {
         >
           <div className="flex gap-4">
             <p>El Tesoro</p>
-            <ArrowRight></ArrowRight>
+            <ArrowRight />
             <p>UPB</p>
           </div>
-          <Next></Next>
+          <Next />
         </Link>
       </div>
     </section>

@@ -6,3 +6,7 @@ export { default as Faq } from "./Faq";
 export { default as Destinations } from "./Destinations";
 export { default as TextSections } from "./TextSections";
 export { default as Login } from "./Login";
+export { default as RegisterForm } from "./RegisterForm";
+export { default as LoginForm } from "./LoginForm";
+export { default as Input } from "./Input";
+export { default as UserInfo } from "./UserInfo";

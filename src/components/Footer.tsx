@@ -4,7 +4,7 @@ import logo from "../../public/images/logo-blanco.png";
 export default function Footer() {
   return (
     <footer className="bg-black text-white flex flex-col items-center justify-center gap-5 py-5 px-96">
-      <Image src={logo} alt="Logo UPB"></Image>
+      <Image src={logo} alt="Logo UPB" />
       <div className="flex gap-5 text-sm">
         <a className="underline underline-offset-4">
           Repositorio Institucional

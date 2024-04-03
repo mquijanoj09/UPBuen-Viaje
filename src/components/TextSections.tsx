@@ -9,7 +9,7 @@ export default function TextSections() {
   return (
     <section>
       <div className="text-white flex items-center justify-center gap-10 bg-red-500 w-full p-10">
-        <Image src={img} alt="Imagen personas"></Image>
+        <Image src={img} alt="Imagen personas" />
         <div className="flex flex-col gap-5">
           <h2 className="text-2xl font-bold">
             Ayúdanos a mantenerte a salvo de estafas.
@@ -42,7 +42,7 @@ export default function TextSections() {
             </Button>
           </Link>
         </div>
-        <Image src={img1} alt="Imagen personas"></Image>
+        <Image src={img1} alt="Imagen personas" />
       </div>
     </section>
   );

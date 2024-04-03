@@ -11,3 +11,5 @@ export { default as Coins } from "./Coins";
 export { default as Emoji } from "./Emoji";
 export { default as Check } from "./Check";
 export { default as Down } from "./Down";
+export { default as Circle } from "./Circle";
+export { default as Checked } from "./Checked";
