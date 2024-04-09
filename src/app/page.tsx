@@ -8,7 +8,7 @@ import {
 
 export default function Home() {
   return (
-    <main>
+    <main className="bg-white">
       <MainSection />
       <TextSections />
       <Destinations />

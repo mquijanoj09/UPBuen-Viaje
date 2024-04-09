@@ -2,14 +2,20 @@
 import { Down, Plus, Profile, Search } from "@/icons";
 import Link from "next/link";
 import { Login } from ".";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function NavBar() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const pathname = usePathname();
 
   function handleSetIsLoginOpen() {
     setIsLoginOpen(!isLoginOpen);
   }
+
+  useEffect(() => {
+    setIsLoginOpen(false);
+  }, [pathname]);
 
   return (
     <nav className="fixed top-0 py-5 px-40 z-20 bg-red-100 w-full">
@@ -26,17 +32,20 @@ export default function NavBar() {
           <Link href="/carpool">
             <h3 className="hover:text-red-400">Carpool</h3>
           </Link>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center hover:text-red-400">
             <Search />
-            <h3 className="hover:text-red-400">Buscar</h3>
+            <h3>Buscar</h3>
           </div>
-          <div className="flex gap-2 items-center">
+          <Link
+            href={"/publicar-viaje"}
+            className="flex gap-2 items-center hover:text-red-400"
+          >
             <Plus />
-            <h3 className="hover:text-red-400">Publicar un viaje</h3>
-          </div>
+            <h3>Publicar un viaje</h3>
+          </Link>
           <button
             onClick={handleSetIsLoginOpen}
-            className="flex gap-2 items-center z-50"
+            className="flex gap-2 items-center z-50 hover:opacity-70"
           >
             <Profile />
             <Down />

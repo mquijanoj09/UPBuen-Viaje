@@ -1,44 +1,57 @@
 "use client";
 import { Button, Input } from "@/components";
 import { Checked, Circle } from "@/icons";
+import { db } from "@/utils/firebase";
+import { onValue, ref } from "firebase/database";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import campus from "../../public/images/campus.jpeg";
-import Image from "next/image";
 
 export default function LoginForm() {
   const [isChecked, setIsChecked] = useState(false);
-  const [email, setEmail] = useState("");
+  const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   function handleSetPassword(event: React.ChangeEvent<HTMLInputElement>) {
     setPassword(event.target.value);
   }
 
-  function handleSetEmail(event: React.ChangeEvent<HTMLInputElement>) {
-    setEmail(event.target.value);
+  function handleSetId(event: React.ChangeEvent<HTMLInputElement>) {
+    setId(event.target.value);
   }
 
   function handleSetIsChecked() {
     setIsChecked(!isChecked);
   }
 
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    const userRef = ref(db, "users/" + id);
+    onValue(userRef, (snapshot) => {
+      const data = snapshot.val();
+      if (!data) return;
+      if (data.password === password) {
+        localStorage.setItem("userId", id);
+        router.push("/");
+      }
+    });
+  }
+
   return (
     <main className="flex items-center justify-center w-full mt-20 text-lg">
-      {/* <Image
-        src={campus}
-        alt="campus"
-        className="inset-0 absolute w-full h-full object-cover opacity-40 -z-50"
-      /> */}
-      <div className="flex gap-10 items-center flex-col py-10 max-w-3xl">
+      <form
+        className="flex gap-10 items-center flex-col py-10 max-w-3xl"
+        onSubmit={handleSubmit}
+      >
         <h2 className="text-4xl text-red-500 font-semibold">
-          ¿Cuál es tu email y tu contraseña?
+          ¿Cuál es tu id y tu contraseña?
         </h2>
         <div className="w-full">
           <Input
-            type="email"
+            type="id"
             placeholder="ejemplo@upb.edu.co"
-            value={email}
-            onChange={handleSetEmail}
+            value={id}
+            onChange={handleSetId}
           />
           <Input
             type="password"
@@ -60,10 +73,13 @@ export default function LoginForm() {
             <p>Olvidé mi contraseña</p>
           </Button>
         </div>
-        <Button className="bg-red-500 text-white hover:bg-red-400">
+        <Button
+          type="submit"
+          className="bg-red-500 text-white hover:bg-red-400"
+        >
           Iniciar sesión
         </Button>
-      </div>
+      </form>
     </main>
   );
 }

@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Button, Input } from ".";
-import { onValue, ref, set } from "firebase/database";
 import { db } from "@/utils/firebase";
 import { useRouter } from "next/navigation";
+import { onValue, ref, set } from "firebase/database";
 
 export default function UserInfo() {
   const [name, setName] = useState("");
@@ -14,11 +14,12 @@ export default function UserInfo() {
 
   function createUser(e: React.FormEvent) {
     e.preventDefault();
-    const starCountRef = ref(db, "users/" + id);
-    onValue(starCountRef, (snapshot) => {
+    const userRef = ref(db, "users/" + id);
+    onValue(userRef, (snapshot) => {
       const data = snapshot.val();
       if (!data) set(ref(db, "users/" + id), { name, lastName, id, password });
     });
+    localStorage.setItem("userId", id);
     setName("");
     setLastName("");
     setId("");
