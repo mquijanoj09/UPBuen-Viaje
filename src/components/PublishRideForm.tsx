@@ -91,20 +91,11 @@ export default function PublishRideForm() {
   };
 
   useEffect(() => {
-    const handleUser = () => {
-      const id = localStorage.getItem("userId");
-      const userRef = ref(db, "users/" + id);
-      onValue(userRef, (snapshot) => {
-        const data = snapshot.val();
-        if (!data) return;
-        setUser(data);
-      });
-    };
-    handleUser();
+    setUser(localStorage.getItem("userId") || "");
   }, []);
 
   return (
-    <form className="w-5/12 " onSubmit={handleSubmit}>
+    <form className="w-5/12" onSubmit={handleSubmit}>
       {!user && (
         <Link
           href={"login"}

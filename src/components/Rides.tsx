@@ -8,11 +8,11 @@ import Link from "next/link";
 import React, { use, useEffect, useState } from "react";
 
 export default function Rides() {
-  const [user, setUSer] = useState<string>();
+  const [user, setUser] = useState<string>();
   const [viajes, setViajes] = useState<any[]>([]);
 
   useEffect(() => {
-    setUSer(localStorage.getItem("userId") || "");
+    setUser(localStorage.getItem("userId") || "");
   }, []);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function Rides() {
               </div>
               <div className="flex gap-2">
                 <Destination />
-                <h3>Destino: {ride.destination}</h3>
+                <h3>Destino: {ride.destiny}</h3>
               </div>
               <h4>${formatPrice(Number(ride.money))} por pasajero</h4>
 

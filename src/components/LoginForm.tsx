@@ -24,17 +24,17 @@ export default function LoginForm() {
     setIsChecked(!isChecked);
   }
 
-  function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    const userRef = ref(db, "users/" + id);
-    onValue(userRef, (snapshot) => {
-      const data = snapshot.val();
-      if (!data) return;
-      if (data.password === password) {
-        localStorage.setItem("userId", id);
-        router.push("/");
-      }
+    const res = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify({ id, password }),
     });
+    const data = await res.json();
+    if (data.isLoggedIn) {
+      localStorage.setItem("userId", id);
+      router.push("/");
+    }
   }
 
   return (

@@ -1,11 +1,9 @@
 "use client";
 import { Next } from "@/icons";
 import { useRouter } from "next/navigation";
-import { onValue, ref } from "firebase/database";
-import { db } from "@/utils/firebase";
 import Button from "./Button";
 import Link from "next/link";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   handleSetIsLoginOpen: () => void;
@@ -16,14 +14,16 @@ export default function Login({ handleSetIsLoginOpen }: Props) {
   const [user, setUser] = useState<any>({});
 
   useEffect(() => {
-    const handleUser = () => {
+    const handleUser = async () => {
       const id = localStorage.getItem("userId");
-      const userRef = ref(db, "users/" + id);
-      onValue(userRef, (snapshot) => {
-        const data = snapshot.val();
-        if (!data) return;
-        setUser(data);
+      const data = await fetch("/api/getUser", {
+        method: "POST",
+        body: JSON.stringify({ id }),
       });
+      const response = await data.json();
+      if (response.userData) {
+        setUser(response.userData);
+      }
     };
     handleUser();
   }, []);
@@ -32,8 +32,6 @@ export default function Login({ handleSetIsLoginOpen }: Props) {
     localStorage.removeItem("userId");
     router.push("/login");
   };
-
-  console.log(user);
 
   return (
     <div className="absolute z-20 bg-red-100 right-0 top-[60px]">

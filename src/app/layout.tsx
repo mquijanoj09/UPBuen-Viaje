@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Head from "next/head";
 import { NavBar } from "@/components";
 import Providers from "./providers";
 import Image from "next/image";
