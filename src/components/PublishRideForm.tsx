@@ -104,7 +104,7 @@ export default function PublishRideForm() {
           Inicia sesión para poder publicar un viaje!
         </Link>
       )}
-      <div className={`flex flex-col gap-2 ${!user && "blur-sm"}`}>
+      <div className={`flex flex-col gap-2 pb-20 ${!user && "blur-sm"}`}>
         <div className="flex gap-10">
           <div className="flex flex-col gap-2 w-1/2">
             <h4>Fecha de salida: *</h4>

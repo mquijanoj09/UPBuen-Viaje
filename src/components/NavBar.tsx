@@ -39,10 +39,7 @@ export default function NavBar() {
               Carpool
             </h3>
           </Link>
-          <div className={`flex gap-2 items-center hover:text-red-400`}>
-            <Search />
-            <h3>Buscar</h3>
-          </div>
+
           <Link
             href={"/publicar-viaje"}
             className={`flex gap-2 items-center hover:text-red-400 ${

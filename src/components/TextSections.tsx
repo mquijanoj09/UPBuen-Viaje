@@ -3,7 +3,6 @@ import { Button } from ".";
 import Image from "next/image";
 import img from "../../public/images/imagen.png";
 import img1 from "../../public/images/imagen1.png";
-import Link from "next/link";
 
 export default function TextSections() {
   return (
@@ -20,11 +19,9 @@ export default function TextSections() {
             queremos que sepas exactamente cómo evitarlas y reportarlas. Sigue
             nuestros consejos para ayudarnos a mantenerte seguro.
           </p>
-          <Link href={"/seguridad"}>
-            <Button className="bg-white text-red-500 hover:bg-red-100">
-              Aprende más
-            </Button>
-          </Link>
+          <Button className="bg-white text-red-500 hover:bg-red-100">
+            Aprende más
+          </Button>
         </div>
       </div>
       <div className="flex items-center justify-center gap-10 p-10">
@@ -36,11 +33,9 @@ export default function TextSections() {
             Los estudiantes pueden recibir bonos de fidelidad por el buen uso de
             la app.
           </p>
-          <Link href={"/bonos"}>
-            <Button className="bg-red-500 text-white hover:bg-red-400">
-              Aprende más
-            </Button>
-          </Link>
+          <Button className="bg-red-500 text-white hover:bg-red-400">
+            Aprende más
+          </Button>
         </div>
         <Image src={img1} alt="Imagen personas" />
       </div>

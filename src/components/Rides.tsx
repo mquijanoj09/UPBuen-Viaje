@@ -7,7 +7,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { use, useEffect, useState } from "react";
 
-export default function Rides() {
+interface Props {
+  gridCols?: string;
+}
+
+export default function Rides({ gridCols = "grid-cols-2" }: Props) {
   const [user, setUser] = useState<string>();
   const [viajes, setViajes] = useState<any[]>([]);
 
@@ -25,7 +29,7 @@ export default function Rides() {
   }, []);
 
   return (
-    <div className="w-3/4 grid grid-cols-2 gap-16">
+    <div className={`${gridCols} w-3/4 grid gap-16 pb-20`}>
       {viajes.map((ride) => {
         const noSeats = ride.places === 0;
         return (

@@ -3,9 +3,11 @@ import React from "react";
 
 export default function page() {
   return (
-    <main className="mt-20 overflow-scroll w-full flex flex-col items-center justify-center gap-10">
-      <h2 className="text-3xl font-semibold">Viajes disponibles!</h2>
-      <Rides />
+    <main className="flex w-full text-lg overflow-y-scroll pt-32">
+      <div className="flex flex-col gap-5 w-full items-center">
+        <h2 className="text-3xl font-semibold">Viajes disponibles:</h2>
+        <Rides />
+      </div>
     </main>
   );
 }

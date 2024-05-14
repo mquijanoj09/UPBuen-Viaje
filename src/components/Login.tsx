@@ -30,16 +30,20 @@ export default function Login({ handleSetIsLoginOpen }: Props) {
 
   const handleLogOut = () => {
     localStorage.removeItem("userId");
-    router.push("/login");
+    router.push("/");
   };
 
   return (
-    <div className="absolute z-20 bg-red-100 right-0 top-[60px]">
+    <div className="absolute z-20 bg-red-100 right-0 top-[60px] border border-red-200">
       {user.name ? (
         <div>
-          <h3 className="p-4">
-            Hola {user.name} {user.lastName}!
-          </h3>
+          <Link
+            href={"/mi-perfil"}
+            className="p-4 w-80 hover:bg-red-200 flex justify-between rounded-none"
+          >
+            <p>Mi perfil</p>
+            <Next />
+          </Link>
           <Button
             className="p-4 w-80 hover:bg-red-200 flex justify-between rounded-none"
             onClick={handleLogOut}
