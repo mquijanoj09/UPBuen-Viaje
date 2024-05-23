@@ -10,6 +10,7 @@ import {
 import { Button } from ".";
 import Image from "next/image";
 import img3 from "../../public/images/imagen3.png";
+import Link from "next/link";
 
 export default function MainSection() {
   return (
@@ -35,9 +36,12 @@ export default function MainSection() {
           <People />
           <p>1 pasajero</p>
         </div>
-        <Button className="bg-red-500 text-white rounded-l-none w-32 hover:bg-red-400">
+        <Link
+          href="/carpool"
+          className="bg-red-500 text-white rounded-l-none w-32 hover:bg-red-400 rounded-full p-4 mx-auto"
+        >
           Buscar
-        </Button>
+        </Link>
       </div>
       <div className="flex gap-10 justify-center my-20">
         <div className="flex flex-col gap-3 max-w-72">

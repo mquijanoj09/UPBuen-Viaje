@@ -13,3 +13,5 @@ export { default as UserInfo } from "./UserInfo";
 export { default as PublishRideForm } from "./PublishRideForm";
 export { default as Rides } from "./Rides";
 export { default as Stats } from "./Stats";
+export { default as GetOnRide } from "./GetOnRide";
+export { default as RequestedRide } from "./RequestedRide";

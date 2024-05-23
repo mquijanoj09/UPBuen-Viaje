@@ -23,12 +23,7 @@ export default function RegisterForm() {
           ¿Cuál es tu email?
         </h2>
         <div className="w-full">
-          <Input
-            type="email"
-            placeholder="ejemplo@upb.edu.co"
-            value={email}
-            onChange={handleSetEmail}
-          />
+          {/* <Input inputText="Email" inputType="email" label="Email" /> */}
           <Button
             onClick={handleSetIsChecked}
             className="hover:bg-red-100 rounded-xl w-full text-left flex items-center justify-between"

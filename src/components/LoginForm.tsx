@@ -1,180 +1,66 @@
-// "use client";
-// import { Button, Input } from "@/components";
-// import { Checked, Circle } from "@/icons";
-// import { db } from "@/utils/firebase";
-// import { onValue, ref } from "firebase/database";
-// import { useRouter } from "next/navigation";
-// import { useState } from "react";
-// import { useForm } from "react-hook-form";
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import * as yup from "yup";
-
-// export default function LoginForm() {
-//   const [isChecked, setIsChecked] = useState(false);
-//   const router = useRouter();
-//   const schema = yup
-//     .object({
-//       id: yup
-//         .string()
-//         .matches(/^[0-9]+$/, "El id solo puede contener números")
-//         .min(1, "El ID debe tener mínimo 1 dígito")
-//         .max(6, "El ID debe tener máximo 6 dígitos")
-//         .required("El celular es requerido"),
-//       password: yup
-//         .string()
-//         .min(8)
-//         .max(16)
-//         .required("La contraseña es requerida"),
-//     })
-//     .required();
-//   const {
-//     register,
-//     reset,
-//     formState: { errors },
-//   } = useForm({
-//     resolver: yupResolver(schema),
-//   });
-
-//   function handleSetIsChecked() {
-//     setIsChecked(!isChecked);
-//   }
-
-//   async function handleSubmit(event: React.FormEvent) {
-//     event.preventDefault();
-//     const res = await fetch("/api/login", {
-//       method: "POST",
-//       body: JSON.stringify({ id, password }),
-//     });
-//     const data = await res.json();
-//     if (data.isLoggedIn) {
-//       localStorage.setItem("userId", id);
-//       router.push("/");
-//     }
-//   }
-
-//   return (
-//     <main className="flex items-center justify-center w-full mt-20 text-lg">
-//       <form
-//         className="flex gap-10 items-center flex-col py-10 max-w-3xl"
-//         onSubmit={handleSubmit}
-//       >
-//         <h2 className="text-4xl text-red-500 font-semibold">
-//           ¿Cuál es tu id y tu contraseña?
-//         </h2>
-//         <div className="w-full">
-//           <Input
-//             inputText="Id"
-//             inputType="number"
-//             label="Id"
-//             error={errors.id}
-//             register={register}
-//           />
-//           <Input
-//             inputText="Contraseña"
-//             inputType="password"
-//             label="Contraseña"
-//             error={errors.password}
-//             register={register}
-//           />
-//           <Button
-//             onClick={handleSetIsChecked}
-//             className="hover:bg-red-100 rounded-xl w-full text-left flex items-center justify-between"
-//           >
-//             <p>Recuérdame</p>
-//             {!isChecked ? <Circle /> : <Checked />}
-//           </Button>
-//           <Button
-//             onClick={handleSetIsChecked}
-//             className="hover:bg-red-100 rounded-xl w-full text-left text-red-500"
-//           >
-//             <p>Olvidé mi contraseña</p>
-//           </Button>
-//         </div>
-//         <Button
-//           type="submit"
-//           className="bg-red-500 text-white hover:bg-red-400"
-//         >
-//           Iniciar sesión
-//         </Button>
-//       </form>
-//     </main>
-//   );
-// }
-
 "use client";
 import { Button, Input } from "@/components";
-import { Checked, Circle } from "@/icons";
-import { db } from "@/utils/firebase";
-import { onValue, ref } from "firebase/database";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 export default function LoginForm() {
-  const [isChecked, setIsChecked] = useState(false);
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
   const router = useRouter();
-
-  function handleSetPassword(event: React.ChangeEvent<HTMLInputElement>) {
-    setPassword(event.target.value);
-  }
-
-  function handleSetId(event: React.ChangeEvent<HTMLInputElement>) {
-    setId(event.target.value);
-  }
-
-  function handleSetIsChecked() {
-    setIsChecked(!isChecked);
-  }
-
-  async function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    const res = await fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify({ id, password }),
-    });
-    const data = await res.json();
-    if (data.isLoggedIn) {
-      localStorage.setItem("userId", id);
-      router.push("/");
-    }
-  }
+  const schema = yup
+    .object({
+      id: yup
+        .string()
+        .matches(/^[0-9]+$/, "El id solo puede contener números")
+        // .min(3, "El ID debe tener mínimo 3 dígitos")
+        .max(6, "El ID debe tener máximo 6 dígitos")
+        .required("El id es requerido"),
+      password: yup.string().required("La contraseña es requerida"),
+    })
+    .required();
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   return (
     <main className="flex items-center justify-center w-full mt-20 text-lg">
       <form
         className="flex gap-10 items-center flex-col py-10 max-w-3xl"
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(async ({ id, password }) => {
+          const res = await fetch("/api/login", {
+            method: "POST",
+            body: JSON.stringify({ id, password }),
+          });
+          const data = await res.json();
+          if (data.isLoggedIn) {
+            localStorage.setItem("userId", id);
+            router.push("/");
+          }
+        })}
       >
         <h2 className="text-4xl text-red-500 font-semibold">
           ¿Cuál es tu id y tu contraseña?
         </h2>
-        <div className="w-full">
+        <div className="w-full flex flex-col gap-5">
           <Input
-            type="id"
-            placeholder="ejemplo@upb.edu.co"
-            value={id}
-            onChange={handleSetId}
+            inputText="Id"
+            inputType="string"
+            label="id"
+            error={errors.id}
+            register={register}
           />
           <Input
-            type="password"
-            placeholder="Contraseña"
-            onChange={handleSetPassword}
-            value={password}
+            inputText="Contraseña"
+            inputType="password"
+            label="password"
+            error={errors.password}
+            register={register}
           />
-          <Button
-            onClick={handleSetIsChecked}
-            className="hover:bg-red-100 rounded-xl w-full text-left flex items-center justify-between"
-          >
-            <p>Recuérdame</p>
-            {!isChecked ? <Circle /> : <Checked />}
-          </Button>
-          <Button
-            onClick={handleSetIsChecked}
-            className="hover:bg-red-100 rounded-xl w-full text-left text-red-500"
-          >
-            <p>Olvidé mi contraseña</p>
-          </Button>
         </div>
         <Button
           type="submit"
