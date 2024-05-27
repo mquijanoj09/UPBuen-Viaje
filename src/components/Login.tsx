@@ -7,30 +7,15 @@ import { useEffect, useState } from "react";
 
 interface Props {
   handleSetIsLoginOpen: () => void;
+  user: any;
 }
 
-export default function Login({ handleSetIsLoginOpen }: Props) {
+export default function Login({ handleSetIsLoginOpen, user }: Props) {
   const router = useRouter();
-  const [user, setUser] = useState<any>({});
-
-  useEffect(() => {
-    const handleUser = async () => {
-      const id = localStorage.getItem("userId");
-      const data = await fetch("/api/getUser", {
-        method: "POST",
-        body: JSON.stringify({ id }),
-      });
-      const response = await data.json();
-      if (response.userData) {
-        setUser(response.userData);
-      }
-    };
-    handleUser();
-  }, []);
 
   const handleLogOut = () => {
     localStorage.removeItem("userId");
-    router.push("/");
+    router.push("/login");
   };
 
   return (

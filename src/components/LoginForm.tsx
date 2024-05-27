@@ -12,7 +12,7 @@ export default function LoginForm() {
       id: yup
         .string()
         .matches(/^[0-9]+$/, "El id solo puede contener números")
-        // .min(3, "El ID debe tener mínimo 3 dígitos")
+        .min(3, "El ID debe tener mínimo 3 dígitos")
         .max(6, "El ID debe tener máximo 6 dígitos")
         .required("El id es requerido"),
       password: yup.string().required("La contraseña es requerida"),

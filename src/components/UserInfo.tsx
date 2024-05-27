@@ -4,63 +4,69 @@ import { Button, Input } from ".";
 import { db } from "@/utils/firebase";
 import { useRouter } from "next/navigation";
 import { onValue, ref, set } from "firebase/database";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 export default function UserInfo() {
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
   const router = useRouter();
-
-  function createUser(e: React.FormEvent) {
-    e.preventDefault();
-    const userRef = ref(db, "users/" + id);
-    onValue(userRef, (snapshot) => {
-      const data = snapshot.val();
-      if (!data) set(ref(db, "users/" + id), { name, lastName, id, password });
-    });
-    localStorage.setItem("userId", id);
-    setName("");
-    setLastName("");
-    setId("");
-    setPassword("");
-    router.push("/");
-  }
-
-  function handleSetName(event: React.ChangeEvent<HTMLInputElement>) {
-    setName(event.target.value);
-  }
-  function handleSetLastName(event: React.ChangeEvent<HTMLInputElement>) {
-    setLastName(event.target.value);
-  }
-  function handleSetId(event: React.ChangeEvent<HTMLInputElement>) {
-    setId(event.target.value);
-  }
-  function handleSetPassword(event: React.ChangeEvent<HTMLInputElement>) {
-    setPassword(event.target.value);
-  }
+  const schema = yup.object({
+    name: yup.string().required("Nombre requerido"),
+    lastName: yup.string().required("Apellido requerido"),
+    id: yup
+      .string()
+      .matches(/^[0-9]+$/, "El id solo puede contener números")
+      .min(3, "El ID debe tener mínimo 3 dígitos")
+      .max(
+        6,
+        "El ID debe tener máximo 6 dígitos, por favor no incluyas ceros a la izquierda"
+      )
+      .required("El id es requerido"),
+    password: yup
+      .string()
+      .required("Contraseña requerida")
+      .min(8, "La contraseña debe tener al menos 8 caracteres"),
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   return (
     <main className="flex items-center justify-center w-full text-lg mt-20">
       <form
         className="flex gap-10 items-center flex-col py-10 max-w-3xl"
-        onSubmit={createUser}
+        onSubmit={handleSubmit(async ({ name, lastName, id, password }) => {
+          const userRef = ref(db, "users/" + id);
+          onValue(userRef, (snapshot) => {
+            const data = snapshot.val();
+            if (!data)
+              set(ref(db, "users/" + id), { name, lastName, id, password });
+          });
+          localStorage.setItem("userId", id);
+          router.push("/");
+        })}
       >
         <h2 className="text-4xl text-red-500 font-semibold">
           ¿Cuál es tu nombre?
         </h2>
-        <div className="w-full">
+        <div className="w-full gap-4 flex flex-col">
           <Input
-            type="text"
-            placeholder="Nombre"
-            value={name}
-            onChange={handleSetName}
+            inputText="Nombre"
+            inputType="text"
+            label="name"
+            error={errors.name}
+            register={register}
           />
           <Input
-            type="text"
-            placeholder="Apellido"
-            value={lastName}
-            onChange={handleSetLastName}
+            inputText="Apellido"
+            inputType="text"
+            label="lastName"
+            error={errors.lastName}
+            register={register}
           />
         </div>
         <h2 className="text-4xl text-red-500 font-semibold">
@@ -68,10 +74,11 @@ export default function UserInfo() {
         </h2>
         <div className="w-full">
           <Input
-            type="number"
-            placeholder="ID"
-            value={id}
-            onChange={handleSetId}
+            inputText="ID"
+            inputType="number"
+            label="id"
+            error={errors.id}
+            register={register}
           />
         </div>
         <h2 className="text-4xl text-red-500 font-semibold">
@@ -79,21 +86,15 @@ export default function UserInfo() {
         </h2>
         <div className="w-full">
           <Input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={handleSetPassword}
+            inputText="Contraseña"
+            inputType="password"
+            label="password"
+            error={errors.password}
+            register={register}
           />
-          <p className="text-xs">
-            Debe tener al menos 8 caracteres, 1 letra, 1 número y 1 carácter
-            especial.
-          </p>
+          <p className="text-xs mt-3">Debe tener al menos 8 caracteres.</p>
         </div>
-        <Button
-          className={`bg-red-500 text-white hover:bg-red-400 ${
-            name && lastName && id && password !== "" ? "visible" : "invisible"
-          }`}
-        >
+        <Button className="bg-red-500 text-white hover:bg-red-400">
           Crear cuenta
         </Button>
       </form>

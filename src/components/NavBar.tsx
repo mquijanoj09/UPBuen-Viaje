@@ -9,6 +9,8 @@ export default function NavBar() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const pathname = usePathname();
   const activePage = pathname.split("/")[1];
+  const [user, setUser] = useState<any>({});
+  console.log(user);
 
   function handleSetIsLoginOpen() {
     setIsLoginOpen(!isLoginOpen);
@@ -17,6 +19,21 @@ export default function NavBar() {
   useEffect(() => {
     setIsLoginOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    const handleUser = async () => {
+      const id = localStorage.getItem("userId");
+      const data = await fetch("/api/getUser", {
+        method: "POST",
+        body: JSON.stringify({ id }),
+      });
+      const response = await data.json();
+      if (response.userData) {
+        setUser(response.userData);
+      }
+    };
+    handleUser();
+  }, []);
 
   return (
     <nav className="fixed top-0 py-5 px-40 z-20 bg-red-100 w-full">
@@ -57,7 +74,9 @@ export default function NavBar() {
             <Down />
           </button>
         </ul>
-        {isLoginOpen && <Login handleSetIsLoginOpen={handleSetIsLoginOpen} />}
+        {isLoginOpen && (
+          <Login handleSetIsLoginOpen={handleSetIsLoginOpen} user={user} />
+        )}
       </div>
     </nav>
   );
