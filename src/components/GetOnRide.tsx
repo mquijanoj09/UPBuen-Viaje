@@ -12,13 +12,13 @@ interface Props {
 
 export default function GetOnRide({ ride }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const user = localStorage.getItem("userId");
 
   function handleSetIsOpen() {
     setIsOpen((prev) => !prev);
   }
 
   function handleReserveSeat(ride: Ride) {
-    const user = localStorage.getItem("userId");
     if (!user || ride.places === 0) return;
     fetch("/api/updateRide", {
       method: "POST",
@@ -35,6 +35,7 @@ export default function GetOnRide({ ride }: Props) {
           noSeats ? "cursor-not-allowed bg-red-400 opacity-40" : "bg-red-500"
         }`}
         onClick={handleSetIsOpen}
+        disabled={!user}
       >
         Solicitar asiento
       </button>

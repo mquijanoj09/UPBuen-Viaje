@@ -36,9 +36,9 @@ export default function UserInfo() {
   });
 
   return (
-    <main className="flex items-center justify-center w-full text-lg mt-20">
+    <main className="w-6/12 flex justify-center">
       <form
-        className="flex gap-10 items-center flex-col py-10 max-w-3xl"
+        className="flex gap-10 items-center flex-col max-w-3xl  pb-20"
         onSubmit={handleSubmit(async ({ name, lastName, id, password }) => {
           const userRef = ref(db, "users/" + id);
           onValue(userRef, (snapshot) => {
@@ -92,11 +92,13 @@ export default function UserInfo() {
             error={errors.password}
             register={register}
           />
-          <p className="text-xs mt-3">Debe tener al menos 8 caracteres.</p>
+          <p className="text-xs">Debe tener al menos 8 caracteres.</p>
         </div>
-        <Button className="bg-red-500 text-white hover:bg-red-400">
-          Crear cuenta
-        </Button>
+        <div className="pb-20">
+          <Button className="bg-red-500 text-white hover:bg-red-400">
+            Crear cuenta
+          </Button>
+        </div>
       </form>
     </main>
   );

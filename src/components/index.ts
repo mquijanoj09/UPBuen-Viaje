@@ -15,3 +15,4 @@ export { default as Rides } from "./Rides";
 export { default as Stats } from "./Stats";
 export { default as GetOnRide } from "./GetOnRide";
 export { default as RequestedRide } from "./RequestedRide";
+export { default as UserRides } from "./UserRides";

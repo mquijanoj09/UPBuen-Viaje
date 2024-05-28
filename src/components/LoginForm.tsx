@@ -6,7 +6,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 export default function LoginForm() {
-  const router = useRouter();
   const schema = yup
     .object({
       id: yup
@@ -22,6 +21,7 @@ export default function LoginForm() {
     register,
     reset,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -39,7 +39,12 @@ export default function LoginForm() {
           const data = await res.json();
           if (data.isLoggedIn) {
             localStorage.setItem("userId", id);
-            router.push("/");
+            window.location.pathname = "/";
+          } else {
+            setError(data.error, {
+              type: "manual",
+              message: data.message,
+            });
           }
         })}
       >

@@ -1,12 +1,13 @@
 "use client";
 import Ride from "@/types/Ride";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Button from "./Button";
 
 export default function RequestedRide() {
   const { id } = useParams();
+  const router = useRouter();
   const [viaje, setViaje] = useState<Ride>();
 
   useEffect(() => {
@@ -24,16 +25,17 @@ export default function RequestedRide() {
   }, [id]);
 
   function handleCancelRide() {
-    const user = localStorage.getItem("userId");
+    const userId = localStorage.getItem("userId");
     fetch("/api/deleteUserRide", {
       method: "POST",
-      body: JSON.stringify({ user, ride: viaje }),
+      body: JSON.stringify({ userId, ride: viaje }),
     });
+    router.push("/carpool");
   }
 
   if (!viaje) return;
   return (
-    <div className="absolute flex flex-col gap-5 w-1/2 z-50 xl:w-1/4 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 p-8 bg-white rounded-xl">
+    <div className="absolute flex flex-col gap-5 w-1/2 z-10 xl:w-1/4 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 p-8 bg-white rounded-xl">
       <h2 className="text-3xl text-red-500 font-bold text-center">
         Tu solicitud de viaje
       </h2>

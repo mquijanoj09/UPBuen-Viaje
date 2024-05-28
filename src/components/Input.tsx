@@ -27,7 +27,7 @@ export default function Input({
         disabled={disabled}
       />
       {error && (
-        <p className="absolute -bottom-2 text-xs font-semibold text-red-600 z-20">
+        <p className="absolute -bottom-2 text-xs font-semibold text-red-600">
           {error?.message}
         </p>
       )}

@@ -6,9 +6,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
   const [isChecked, setIsChecked] = useState(false);
+  const router = useRouter();
   const schema = yup.object({
     email: yup
       .string()
@@ -29,7 +31,7 @@ export default function RegisterForm() {
   }
 
   return (
-    <main className="flex items-center justify-center w-full text-lg mt-20">
+    <main className="flex items-center justify-center w-full mt-20 text-lg">
       <div className="flex gap-10 items-center flex-col py-10 max-w-3xl">
         <h2 className="text-4xl text-red-500 font-semibold">
           ¿Cuál es tu email?
@@ -38,6 +40,7 @@ export default function RegisterForm() {
           className="w-full flex flex-col gap-5"
           onSubmit={handleSubmit(async ({ email }) => {
             console.log(email);
+            router.push("/registrarse/informacion");
           })}
         >
           <Input
@@ -60,13 +63,12 @@ export default function RegisterForm() {
             poniéndome en contacto con la UPB.
           </p>
 
-          <Link
-            href="/registrarse/informacion"
+          <button
             type="submit"
             className="bg-red-500 text-white hover:bg-red-400 rounded-full p-4 mx-auto"
           >
             Continuar
-          </Link>
+          </button>
         </form>
       </div>
     </main>

@@ -3,23 +3,24 @@ import { Next } from "@/icons";
 import { useRouter } from "next/navigation";
 import Button from "./Button";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 interface Props {
   handleSetIsLoginOpen: () => void;
   user: any;
+  setUser: (user: any) => void;
 }
 
-export default function Login({ handleSetIsLoginOpen, user }: Props) {
+export default function Login({ handleSetIsLoginOpen, user, setUser }: Props) {
   const router = useRouter();
 
   const handleLogOut = () => {
+    setUser({});
     localStorage.removeItem("userId");
     router.push("/login");
   };
 
   return (
-    <div className="absolute z-20 bg-red-100 right-0 top-[60px] border border-red-200">
+    <div className="absolute z-50 bg-red-100 right-0 top-[60px] border border-red-200">
       {user.name ? (
         <div>
           <Link

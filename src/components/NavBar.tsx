@@ -10,7 +10,6 @@ export default function NavBar() {
   const pathname = usePathname();
   const activePage = pathname.split("/")[1];
   const [user, setUser] = useState<any>({});
-  console.log(user);
 
   function handleSetIsLoginOpen() {
     setIsLoginOpen(!isLoginOpen);
@@ -75,7 +74,11 @@ export default function NavBar() {
           </button>
         </ul>
         {isLoginOpen && (
-          <Login handleSetIsLoginOpen={handleSetIsLoginOpen} user={user} />
+          <Login
+            handleSetIsLoginOpen={handleSetIsLoginOpen}
+            user={user}
+            setUser={setUser}
+          />
         )}
       </div>
     </nav>

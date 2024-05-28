@@ -9,57 +9,70 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import dayjs from "dayjs";
+import { revalidatePath } from "next/cache";
 
 export default function PublishRideForm() {
   const router = useRouter();
   const [user, setUser] = useState<any>();
-  const schema = yup
-    .object({
-      date: yup.string().required("La fecha de salida es requerida"),
-      time: yup.string().required("La hora de salida es requerida"),
-      origin: yup.string().required("El origen es requerido"),
-      destiny: yup.string().required("El destino es requerido"),
-      car: yup.string().required("La información del vehículo es requerida"),
-      places: yup
-        .string()
-        .matches(/^[0-9]+$/, "Los cupos solo pueden contener números")
-        .required("Los cupos son requeridos"),
-      money: yup
-        .string()
-        .matches(/^[0-9]+$/, "El aporte solo puede contener números")
-        .required("El aporte es requerido"),
-      plate: yup.string().matches(/^[A-Z]{3}[0-9]{3}$/, {
-        message: "La placa debe tener el formato ABC123",
-      }),
-      info: yup.string().optional(),
-    })
-    .required();
+  const today = new Date();
+  const afterNowHour = dayjs().add(1, "hour");
+  console.log(afterNowHour);
+  const schema = yup.object({
+    date: yup
+      .string()
+      .required("La fecha de salida es requerida")
+      .test(
+        "is-future-or-today-date",
+        "La fecha debe ser hoy o una fecha futura",
+        (value) => {
+          return (
+            dayjs(value).isSame(today, "day") || dayjs(value).isAfter(today)
+          );
+        }
+      ),
+    time: yup
+      .string()
+      .required("La hora de salida es requerida")
+      .test(
+        "is-future-or-today-time",
+        "La hora debe ser una hora futura si la fecha es hoy",
+        function (value) {
+          const { date } = this.parent;
+          if (date) {
+            const selectedDate = dayjs(date).startOf("day");
+            const selectedTime = dayjs(`${date}T${value}`);
+            if (selectedDate.isSame(today, "day")) {
+              return selectedTime.isAfter(dayjs());
+            }
+            return selectedDate.isAfter(today);
+          }
+          return true;
+        }
+      ),
+    origin: yup.string().required("El origen es requerido"),
+    destiny: yup.string().required("El destino es requerido"),
+    car: yup.string().required("La información del vehículo es requerida"),
+    places: yup
+      .string()
+      .matches(/^[0-9]+$/, "Los cupos solo pueden contener números")
+      .required("Los cupos son requeridos"),
+    money: yup
+      .string()
+      .matches(/^[0-9]+$/, "El aporte solo puede contener números")
+      .required("El aporte es requerido"),
+    plate: yup.string().matches(/^[A-Z]{3}[0-9]{3}$/, {
+      message: "La placa debe tener el formato ABC123",
+    }),
+    info: yup.string().optional(),
+  });
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
-
-  // const handleSubmit = (event: React.FormEvent) => {
-  //   event.preventDefault();
-  //   const id = localStorage.getItem("userId");
-  //   if (!id) return;
-  //   const userRef = ref(db, "users/" + id);
-  //   onValue(userRef, (snapshot) => {
-  //     const data = snapshot.val();
-  //     if (!data) return;
-  //     const { name, lastName } = data;
-  //     const viajesRef = ref(db, "viajes/" + id);
-  //     onValue(viajesRef, (snapshot) => {
-  //       const data = snapshot.val();
-  //       if (!data) set(ref(db, "viajes/" + id), {});
-  //     });
-  //   });
-  //   router.push("/carpool");
-  // };
 
   useEffect(() => {
     setUser(localStorage.getItem("userId") || "");
@@ -68,22 +81,46 @@ export default function PublishRideForm() {
   return (
     <form
       className="w-6/12"
-      onSubmit={handleSubmit(async () => {
-        const id = localStorage.getItem("userId");
-        if (!id) return;
-        const userRef = ref(db, "users/" + id);
-        onValue(userRef, (snapshot) => {
-          const data = snapshot.val();
-          if (!data) return;
-          const { name, lastName } = data;
-          const viajesRef = ref(db, "viajes/" + id);
-          onValue(viajesRef, (snapshot) => {
+      onSubmit={handleSubmit(
+        async ({
+          date,
+          time,
+          origin,
+          destiny,
+          car,
+          plate,
+          places,
+          money,
+          info,
+        }) => {
+          const id = localStorage.getItem("userId");
+          if (!id) return;
+          const userRef = ref(db, "users/" + id);
+          onValue(userRef, (snapshot) => {
             const data = snapshot.val();
-            if (!data) set(ref(db, "viajes/" + id), {});
+            if (!data) return;
+            const { name, lastName } = data;
+            fetch("/api/createRide", {
+              method: "POST",
+              body: JSON.stringify({
+                id,
+                name,
+                lastName,
+                date,
+                time,
+                origin,
+                destiny,
+                car,
+                plate,
+                places,
+                money,
+                info,
+              }),
+            });
+            router.push("/carpool");
           });
-        });
-        router.push("/carpool");
-      })}
+        }
+      )}
     >
       {!user && (
         <Link

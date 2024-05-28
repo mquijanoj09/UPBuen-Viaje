@@ -7,7 +7,6 @@ export async function POST(req: Request) {
   const ViajeRef = ref(db, "viajes/" + id);
   const viaje = await get(ViajeRef);
   const userData = viaje.val();
-  console.log(userData);
   if (!userData) {
     return Response.json({ message: "Travel not found" });
   } else {

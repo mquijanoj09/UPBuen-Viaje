@@ -1,8 +1,6 @@
 "use client";
 import { Destination, From } from "@/icons";
-import { db } from "@/utils/firebase";
 import { formatPrice } from "@/utils/price";
-import { onValue, ref } from "firebase/database";
 import Image from "next/image";
 import Link from "next/link";
 import React, { Fragment, useEffect, useState } from "react";
@@ -42,20 +40,12 @@ export default function Rides({ gridCols = "grid-cols-2" }: Props) {
           (requestedRide) => requestedRide.id === ride.id
         );
         return (
-          <Fragment key={ride.id}>
+          <div className="flex flex-col gap-2" key={ride.id}>
             <div
               className={`flex bg-red-100 rounded-xl border border-[#CD25B3] ${
                 noSeats && !user && "opacity-60 cursor-not-allowed"
               } `}
             >
-              {!user && (
-                <Link
-                  href={"login"}
-                  className="absolute font-bold text-lg w-full text-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
-                >
-                  Inicia sesión para poder ver los viajes!
-                </Link>
-              )}
               <div
                 className={`w-1/2 flex flex-col items-center justify-center gap-5 border-r border-[#CD25B3] p-5 ${
                   !user && "blur-sm cursor-not-allowed"
@@ -91,7 +81,15 @@ export default function Rides({ gridCols = "grid-cols-2" }: Props) {
                 {!requestedRide && <GetOnRide ride={ride} />}
               </div>
             </div>
-          </Fragment>
+            {!user && (
+              <Link
+                href={"login"}
+                className="font-bold text-lg w-full text-center"
+              >
+                Inicia sesión para poder ver los viajes!
+              </Link>
+            )}
+          </div>
         );
       })}
     </div>

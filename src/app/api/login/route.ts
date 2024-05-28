@@ -8,10 +8,18 @@ export async function POST(req: Request) {
   const user = await get(userRef);
   const userData = user.val();
   if (!userData)
-    return Response.json({ message: "User not found", isLoggedIn: false });
+    return Response.json({
+      message: "Id no encontrado",
+      error: "id",
+      isLoggedIn: false,
+    });
   if (userData.password === password) {
     return Response.json({ message: "User found", isLoggedIn: true });
   } else {
-    return Response.json({ message: "Incorrect password", isLoggedIn: false });
+    return Response.json({
+      message: "Contraseña incorrecta",
+      error: "password",
+      isLoggedIn: false,
+    });
   }
 }

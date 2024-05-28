@@ -3,7 +3,7 @@ import { get, ref, set } from "firebase/database";
 
 export async function POST(req: Request) {
   const data = await req.json();
-  const { ride, user } = data;
+  const { ride, user, places } = data;
   await set(ref(db, "viajes/" + ride.id), {
     ...ride,
     places: ride.places - 1,
