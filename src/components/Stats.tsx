@@ -2,12 +2,60 @@
 import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 
+const tripsOptions = {
+  title: "Días de la semana con más viajes:",
+  hAxis: {
+    title: "Viajes",
+  },
+  vAxis: {
+    title: "Día",
+  },
+  colors: ["#CD25B3"],
+};
+
+const moneyOptions = {
+  title: "Dinero histórico gastado",
+  vAxis: {
+    title: "Dinero",
+  },
+  colors: ["#F10B60"],
+};
+
+const driverMoneyOptions = {
+  title: "Dinero esperado último viaje",
+  vAxis: {
+    title: "Dinero",
+  },
+  colors: ["#F10B60"],
+};
+
+const moneyPerDayOptions = {
+  title: "Dinero histórico gastado por día de la semana",
+  hAxis: {
+    title: "Día",
+  },
+  vAxis: {
+    title: "Dinero",
+  },
+};
+
+const passangersOptions = {
+  title: "Pasajeros del último viaje",
+  hAxis: {
+    title: "Viaje",
+  },
+  vAxis: {
+    title: "Pasajeros",
+  },
+};
+
 export default function Stats() {
   const [user, setUser] = useState<any>({});
   const [viajes, setViajes] = useState<any[]>([]);
   const requestedRides = viajes.filter(
     (viaje) => user && viaje.users?.includes(user.id)
   );
+  const driverRide = viajes.find((ride) => ride.id === user.id);
   const tripsPerDay = requestedRides.reduce((acc, ride) => {
     const date = new Date(ride.date);
     const day = date.toLocaleDateString("es-ES", { weekday: "long" });
@@ -30,6 +78,10 @@ export default function Stats() {
     acc += Number(ride.money);
     return acc;
   }, 0);
+  const moneyData = [
+    ["Label", "Dinero gastado"],
+    ["Dinero gastado", moneyRaised],
+  ];
   const moneyPerDay = requestedRides.reduce((acc, ride) => {
     const date = new Date(ride.date);
     const day = date.toLocaleDateString("es-ES", { weekday: "long" });
@@ -47,6 +99,17 @@ export default function Stats() {
     ["Miércoles", moneyPerDay["miércoles"] || 0],
     ["Jueves", moneyPerDay["jueves"] || 0],
     ["Viernes", moneyPerDay["viernes"] || 0],
+  ];
+  console.log(moneyPerDayData);
+
+  const driverMoney = driverRide?.users.length * driverRide?.money;
+  const driverMoneyData = [
+    ["Label", "Dinero ganado"],
+    ["Dinero ganado", driverMoney],
+  ];
+  const passangersData = [
+    ["Viaje", "Pasajeros"],
+    ["Viaje", driverRide?.users.length || 0],
   ];
 
   useEffect(() => {
@@ -75,49 +138,26 @@ export default function Stats() {
     handleRides();
   }, []);
 
-  const moneyData = [
-    ["Label", "Dinero gastado"],
-    ["Dinero gastado", moneyRaised],
-  ];
-
-  const tripsOptions = {
-    title: "Días de la semana con más viajes:",
-    hAxis: {
-      title: "Viajes",
-    },
-    vAxis: {
-      title: "Día",
-    },
-    colors: ["#CD25B3"],
-  };
-
-  const moneyOptions = {
-    title: "Dinero histórico gastado",
-    vAxis: {
-      title: "Dinero",
-    },
-    colors: ["#F10B60"],
-  };
-
-  const moneyPerDayOptions = {
-    title: "Dinero histórico gastado por día de la semana",
-    hAxis: {
-      title: "Día",
-    },
-    vAxis: {
-      title: "Dinero",
-    },
-  };
-
   return (
     <div className="flex flex-col gap-5 w-1/4">
-      <h2 className="text-3xl font-semibold">Estadísticas:</h2>
+      <h2 className="text-3xl font-semibold">Estadísticas como pasajero:</h2>
       <Chart chartType="ColumnChart" data={tripsData} options={tripsOptions} />
       <Chart chartType="ColumnChart" data={moneyData} options={moneyOptions} />
       <Chart
         chartType="PieChart"
         data={moneyPerDayData}
         options={moneyPerDayOptions}
+      />
+      <h2 className="text-3xl font-semibold">Estadísticas como conductor:</h2>
+      <Chart
+        chartType="ColumnChart"
+        data={driverMoneyData}
+        options={driverMoneyOptions}
+      />
+      <Chart
+        chartType="ColumnChart"
+        data={passangersData}
+        options={passangersOptions}
       />
     </div>
   );

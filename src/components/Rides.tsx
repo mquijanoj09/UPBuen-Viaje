@@ -34,64 +34,66 @@ export default function Rides({ gridCols = "grid-cols-2" }: Props) {
 
   return (
     <div className={`${gridCols} w-3/4 grid gap-16 pb-20`}>
-      {viajes.map((ride) => {
-        const noSeats = ride.places === 0;
-        const requestedRide = requestedRides.find(
-          (requestedRide) => requestedRide.id === ride.id
-        );
-        return (
-          <div className="flex flex-col gap-2" key={ride.id}>
-            <div
-              className={`flex bg-red-100 rounded-xl border border-[#CD25B3] ${
-                noSeats && !user && "opacity-60 cursor-not-allowed"
-              } `}
-            >
+      {viajes
+        .filter((ride) => new Date(ride.date) > new Date())
+        .map((ride) => {
+          const noSeats = ride.places === 0;
+          const requestedRide = requestedRides.find(
+            (requestedRide) => requestedRide.id === ride.id
+          );
+          return (
+            <div className="flex flex-col gap-2" key={ride.id}>
               <div
-                className={`w-1/2 flex flex-col items-center justify-center gap-5 border-r border-[#CD25B3] p-5 ${
-                  !user && "blur-sm cursor-not-allowed"
-                }`}
+                className={`flex bg-red-100 rounded-xl border border-[#CD25B3] ${
+                  noSeats && !user && "opacity-60 cursor-not-allowed"
+                } `}
               >
-                <Image src="" alt="foto usuario" width={100} height={100} />
-                <h4>
-                  {ride.name} {ride.lastName}
-                </h4>
-              </div>
-              <div
-                className={`w-full p-5 flex flex-col gap-2 justify-center ${
-                  !user && "blur-sm cursor-not-allowed"
-                }`}
-              >
-                <div className="flex gap-5">
-                  <h3>{ride.date}</h3>
-                  <strong>{ride.time}</strong>
+                <div
+                  className={`w-1/2 flex flex-col items-center justify-center gap-5 border-r border-[#CD25B3] p-5 ${
+                    !user && "blur-sm cursor-not-allowed"
+                  }`}
+                >
+                  <Image src="" alt="foto usuario" width={100} height={100} />
+                  <h4>
+                    {ride.name} {ride.lastName}
+                  </h4>
                 </div>
-                <div className="flex gap-2">
-                  <From />
-                  <h3>Orígen: {ride.origin}</h3>
-                </div>
-                <div className="flex gap-2">
-                  <Destination />
-                  <h3>Destino: {ride.destiny}</h3>
-                </div>
-                <h4>${formatPrice(Number(ride.money))} por pasajero</h4>
+                <div
+                  className={`w-full p-5 flex flex-col gap-2 justify-center ${
+                    !user && "blur-sm cursor-not-allowed"
+                  }`}
+                >
+                  <div className="flex gap-5">
+                    <h3>{ride.date}</h3>
+                    <strong>{ride.time}</strong>
+                  </div>
+                  <div className="flex gap-2">
+                    <From />
+                    <h3>Orígen: {ride.origin}</h3>
+                  </div>
+                  <div className="flex gap-2">
+                    <Destination />
+                    <h3>Destino: {ride.destiny}</h3>
+                  </div>
+                  <h4>${formatPrice(Number(ride.money))} por pasajero</h4>
 
-                <h4 className={`${noSeats && ""}`}>
-                  <strong>{ride.places}</strong> asientos disponibles
-                </h4>
-                {!requestedRide && <GetOnRide ride={ride} />}
+                  <h4 className={`${noSeats && ""}`}>
+                    <strong>{ride.places}</strong> asientos disponibles
+                  </h4>
+                  {!requestedRide && <GetOnRide ride={ride} />}
+                </div>
               </div>
+              {!user && (
+                <Link
+                  href={"login"}
+                  className="font-bold text-lg w-full text-center"
+                >
+                  Inicia sesión para poder ver los viajes!
+                </Link>
+              )}
             </div>
-            {!user && (
-              <Link
-                href={"login"}
-                className="font-bold text-lg w-full text-center"
-              >
-                Inicia sesión para poder ver los viajes!
-              </Link>
-            )}
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 }
