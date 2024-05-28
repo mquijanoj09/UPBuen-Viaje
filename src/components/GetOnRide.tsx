@@ -13,7 +13,7 @@ interface Props {
 export default function GetOnRide({ ride }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const user = localStorage.getItem("userId");
-
+  const isUserRide = user === ride.id;
   function handleSetIsOpen() {
     setIsOpen((prev) => !prev);
   }
@@ -30,15 +30,17 @@ export default function GetOnRide({ ride }: Props) {
 
   return (
     <>
-      <button
-        className={` text-sm rounded-full p-2 mx-auto text-white hover:bg-red-400 ${
-          noSeats ? "cursor-not-allowed bg-red-400 opacity-40" : "bg-red-500"
-        }`}
-        onClick={handleSetIsOpen}
-        disabled={!user}
-      >
-        Solicitar asiento
-      </button>
+      {!isUserRide && (
+        <button
+          className={` text-sm rounded-full p-2 mx-auto text-white hover:bg-red-400 ${
+            noSeats ? "cursor-not-allowed bg-red-400 opacity-40" : "bg-red-500"
+          }`}
+          onClick={handleSetIsOpen}
+          disabled={!user}
+        >
+          Solicitar asiento
+        </button>
+      )}
       {isOpen && (
         <>
           <div

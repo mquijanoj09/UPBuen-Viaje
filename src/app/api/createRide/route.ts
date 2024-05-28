@@ -1,8 +1,10 @@
 import { db } from "@/utils/firebase";
 import { get, onValue, ref, set } from "firebase/database";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 
 export async function POST(req: Request) {
+  const headersList = headers();
   const data = await req.json();
   const {
     id,

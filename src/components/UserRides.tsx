@@ -10,12 +10,10 @@ import { useRouter } from "next/navigation";
 export default function UserRides() {
   const [user, setUser] = useState<any>({});
   const [viajes, setViajes] = useState<any[]>([]);
-  console.log(viajes);
   const router = useRouter();
   const requestedRides = viajes.filter(
     (viaje) => user && viaje.users?.includes(user.id)
   );
-  console.log(requestedRides, user);
   const date = new Date();
   const activeRides = requestedRides.filter(
     (ride) => new Date(ride.date) > date

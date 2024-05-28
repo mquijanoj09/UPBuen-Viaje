@@ -39,7 +39,6 @@ export default function RegisterForm() {
         <form
           className="w-full flex flex-col gap-5"
           onSubmit={handleSubmit(async ({ email }) => {
-            console.log(email);
             router.push("/registrarse/informacion");
           })}
         >

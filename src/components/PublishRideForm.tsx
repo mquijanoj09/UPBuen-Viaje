@@ -17,7 +17,6 @@ export default function PublishRideForm() {
   const [user, setUser] = useState<any>();
   const today = new Date();
   const afterNowHour = dayjs().add(1, "hour");
-  console.log(afterNowHour);
   const schema = yup.object({
     date: yup
       .string()
