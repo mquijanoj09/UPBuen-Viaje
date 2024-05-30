@@ -102,14 +102,16 @@ export default function Stats() {
   ];
   console.log(moneyPerDayData);
 
-  const driverMoney = driverRide?.users.length * driverRide?.money;
+  const driverMoney = driverRide?.users
+    ? driverRide?.users.length * driverRide?.money
+    : 0;
   const driverMoneyData = [
     ["Label", "Dinero ganado"],
     ["Dinero ganado", driverMoney],
   ];
   const passangersData = [
     ["Viaje", "Pasajeros"],
-    ["Viaje", driverRide?.users.length || 0],
+    ["Viaje", (driverRide?.users && driverRide?.users.length) || 0],
   ];
 
   useEffect(() => {

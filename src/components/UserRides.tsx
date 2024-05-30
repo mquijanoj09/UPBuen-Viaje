@@ -29,7 +29,8 @@ export default function UserRides() {
   const historicDriverRides = viajes.find(
     (ride) => ride.id === user.id && dayjs(ride.date).isBefore(dayjs())
   );
-  const reservedSeats = driverRide ? driverRide.users.length : 0;
+  console.log(historicDriverRides);
+  const reservedSeats = driverRide?.users ? driverRide.users.length : 0;
 
   useEffect(() => {
     const handleUser = async () => {
@@ -166,12 +167,14 @@ export default function UserRides() {
                   <h4>
                     <strong>{reservedSeats}</strong> asientos reservados
                   </h4>
-                  <h4>
-                    Id pasajeros reservados:{" "}
-                    <strong>
-                      {driverRide.users.map((user: any) => user).join(", ")}
-                    </strong>
-                  </h4>
+                  {driverRide.users && (
+                    <h4>
+                      Id pasajeros reservados:{" "}
+                      <strong>
+                        {driverRide.users.map((user: any) => user).join(", ")}
+                      </strong>
+                    </h4>
+                  )}
                 </div>
               </div>
             </div>
@@ -275,14 +278,16 @@ export default function UserRides() {
                   <h4>
                     <strong>{reservedSeats}</strong> asientos reservados
                   </h4>
-                  <h4>
-                    Id pasajeros reservados:{" "}
-                    <strong>
-                      {historicDriverRides.users
-                        .map((user: any) => user)
-                        .join(", ")}
-                    </strong>
-                  </h4>
+                  {historicDriverRides.users && (
+                    <h4>
+                      Id pasajeros reservados:{" "}
+                      <strong>
+                        {historicDriverRides.users
+                          .map((user: any) => user)
+                          .join(", ")}
+                      </strong>
+                    </h4>
+                  )}
                 </div>
               </div>
             </div>
