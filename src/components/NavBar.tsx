@@ -35,9 +35,9 @@ export default function NavBar() {
   }, []);
 
   return (
-    <nav className="fixed top-0 py-5 px-40 z-20 bg-red-100 w-full">
-      <div className="relative flex items-center justify-between gap-10">
-        <h1 className="text-4xl font-bold">
+    <nav className="fixed top-0 py-3 md:py-5 px-4 md:px-40 z-20 bg-red-100 w-full">
+      <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-10">
+        <h1 className="text-2xl md:text-4xl font-bold">
           <Link href={"/"}>
             <span className="text-[#F10B60]">U</span>
             <span className="text-[#CD25B3]">P</span>
@@ -45,7 +45,7 @@ export default function NavBar() {
             uen Viaje 🚗
           </Link>
         </h1>
-        <ul className="flex items-center justify-center cursor-pointer gap-10 font-semibold text-xl text-red-500">
+        <ul className="flex items-center justify-between md:justify-center cursor-pointer gap-4 md:gap-10 font-semibold text-base md:text-xl text-red-500">
           <Link href="/carpool">
             <h3
               className={`hover:text-red-400 ${
@@ -63,7 +63,7 @@ export default function NavBar() {
             }`}
           >
             <Plus />
-            <h3>Publicar un viaje</h3>
+            <h3 className="hidden md:block">Publicar un viaje</h3>
           </Link>
           <button
             onClick={handleSetIsLoginOpen}

@@ -10,7 +10,9 @@ interface Props {
   gridCols?: string;
 }
 
-export default function Rides({ gridCols = "grid-cols-2" }: Props) {
+export default function Rides({
+  gridCols = "grid-cols-1 lg:grid-cols-2",
+}: Props) {
   const [user, setUser] = useState<string>();
   const [viajes, setViajes] = useState<any[]>([]);
   const requestedRides = viajes.filter(
@@ -33,7 +35,9 @@ export default function Rides({ gridCols = "grid-cols-2" }: Props) {
   }, []);
 
   return (
-    <div className={`${gridCols} w-3/4 grid gap-16 pb-20`}>
+    <div
+      className={`${gridCols} w-full md:w-3/4 grid gap-8 md:gap-16 pb-20 px-4 md:px-0`}
+    >
       {viajes
         .filter((ride) => new Date(ride.date) > new Date())
         .map((ride) => {
@@ -44,12 +48,12 @@ export default function Rides({ gridCols = "grid-cols-2" }: Props) {
           return (
             <div className="flex flex-col gap-2" key={ride.id}>
               <div
-                className={`flex bg-red-100 rounded-xl border border-[#CD25B3] ${
+                className={`flex flex-col md:flex-row bg-red-100 rounded-xl border border-[#CD25B3] ${
                   noSeats && !user && "opacity-60 cursor-not-allowed"
                 } `}
               >
                 <div
-                  className={`w-1/2 flex flex-col items-center justify-center gap-5 border-r border-[#CD25B3] p-5 ${
+                  className={`w-full md:w-1/2 flex flex-col items-center justify-center gap-5 border-b md:border-r md:border-b-0 border-[#CD25B3] p-5 ${
                     !user && "blur-sm cursor-not-allowed"
                   }`}
                 >

@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import dayjs from "dayjs";
-import { revalidatePath } from "next/cache";
 
 export default function PublishRideForm() {
   const router = useRouter();
@@ -79,7 +78,7 @@ export default function PublishRideForm() {
 
   return (
     <form
-      className="w-6/12"
+      className="w-full md:w-6/12 px-4 md:px-0"
       onSubmit={handleSubmit(
         async ({
           date,
@@ -124,14 +123,14 @@ export default function PublishRideForm() {
       {!user && (
         <Link
           href={"login"}
-          className="absolute max-w-sm z-20 font-bold text-3xl w-full text-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          className="absolute max-w-sm z-20 font-bold text-xl md:text-3xl w-full text-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         >
           Inicia sesión para poder publicar un viaje!
         </Link>
       )}
       <div className={`flex flex-col gap-2 pb-20 ${!user && "blur-sm"}`}>
-        <div className="flex gap-10">
-          <div className="flex flex-col gap-2 w-1/2">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-10">
+          <div className="flex flex-col gap-2 w-full md:w-1/2">
             <h4>Fecha de salida: *</h4>
             <Input
               inputText="Fecha de salida"
@@ -141,7 +140,7 @@ export default function PublishRideForm() {
               error={errors.date}
             />
           </div>
-          <div className="flex flex-col gap-2 w-1/2">
+          <div className="flex flex-col gap-2 w-full md:w-1/2">
             <h4>Hora de salida: *</h4>
             <Input
               inputText="Hora de salida"
@@ -172,8 +171,8 @@ export default function PublishRideForm() {
             error={errors.destiny}
           />
         </div>
-        <div className="flex gap-10">
-          <div className="flex flex-col gap-2 w-1/2">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-10">
+          <div className="flex flex-col gap-2 w-full md:w-1/2">
             <h4>Info vehiculo: *</h4>
             <Input
               inputText="Info vehiculo"
@@ -183,7 +182,7 @@ export default function PublishRideForm() {
               error={errors.car}
             />
           </div>
-          <div className="flex flex-col gap-2 w-1/2">
+          <div className="flex flex-col gap-2 w-full md:w-1/2">
             <h4>Placa vehículo *</h4>
             <Input
               inputText="Placa vehículo"
@@ -194,8 +193,8 @@ export default function PublishRideForm() {
             />
           </div>
         </div>
-        <div className="flex gap-10">
-          <div className="flex flex-col gap-2 w-1/2">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-10">
+          <div className="flex flex-col gap-2 w-full md:w-1/2">
             <h4>Cupos disponibles: *</h4>
             <Input
               inputText="Cupos disponibles"
@@ -205,7 +204,7 @@ export default function PublishRideForm() {
               error={errors.places}
             />
           </div>
-          <div className="flex flex-col gap-2 w-1/2">
+          <div className="flex flex-col gap-2 w-full md:w-1/2">
             <h4>Aporte por pasajero: *</h4>
             <Input
               inputText="Aporte por pasajero"
